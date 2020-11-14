@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/bootstrap")
+
+    <style>
+        #pesquisa {
+            float: right;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar navbar-expand-lg fixed-top navbar-dark bg-primary" style="">
+        <div class="container">
+            <a href="#" class="navbar-brand"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ClimaApp</font></font></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="true" aria-label="Alternar de navegação">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse collapse show" id="navbarResponsive" style="">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Home/ClimaAgora"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Clima Agora </font></font></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Home/Outros"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Outros Radares </font></font></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Home/Cadastro"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Cadastre-se</font></font></a>
+                    </li>
+     
+                </ul>
+
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - ClimaApp</p>
+        </footer>
+    </div>
+
+    <script src="~/Scripts/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,289 @@
+﻿
+@{ ViewBag.Title = "ClimaApp - Clima Agora";
+    Layout = "~/Views/Shared/_Layout.cshtml"; }
+
+<html>
+<head>
+    <title>Vote-me!!</title>
+    <script language="JavaScript">
+        function Api() {
+            $.get("https://api.openweathermap.org/data/2.5/weather?q=Sao Paulo, br & APPID=69e397237ab04eba6288d7d4cd7f233c & units=metric",
+                function (response) {
+                //response
+                console.log(response);
+                $("#name").text(response.name);
+                $("#temp").text(response.main.temp + '°c');
+                $("#temp_min").text(response.main.temp_min + '°c Miníma');
+                $("#temp_max").text(response.main.temp_max + '°c Máxima');
+                $("#pressure").text(response.main.pressure + 'hPa');
+                $("#humidity").text(response.main.humidity + '%');
+                $("#feels").text(response.main.feels_like + '°c');
+                $("#winds").text(response.wind.speed + 'km/h Vento'); 
+                
+
+                Noticia();
+                time();
+                move();
+            });
+        }
+        function Noticia() {
+            $.get("https://servicodados.ibge.gov.br/api/v3/noticias/?ate=15/10/2020", function (response) {
+                //response
+                console.log(response);
+                $("#noticia").text(response.items[6].introducao)
+                $("#titulo").text(response.items[6].titulo)
+                $("#dt_publi").text(response.items[6].data_publicacao)
+                $("#link").text(response.items[6].link)
+                $("#titulo2").text(response.items[536].titulo)
+                $("#noticia2").text(response.items[536].introducao)
+                $("#dt_publi2").text(response.items[536].data_publicacao)
+                $("#titulo3").text(response.items[70].titulo)
+                $("#noticia3").text(response.items[70].introducao)
+                $("#dt_publi3").text(response.items[70].data_publicacao)
+            });
+        }
+        function time() {
+            today = new Date();
+            h = today.getHours();
+            m = today.getMinutes();
+            d = today.getDate();
+            document.getElementById('txt').innerHTML = h + ":" + m +' h';
+            
+            setTimeout('time()', 500);
+            
+        };
+        function refresh() {
+            window.location.reload();
+        };
+
+        today = new Date();
+        h = today.getHours();
+        var i = 0;
+        function move() {
+            if (i == 0) {
+                i = 1;
+                var elem = document.getElementById("pg");
+                var width = h * 4.5;
+                var id = setInterval(frame, 3600);
+                function frame() {
+                    if (width >= 100) {
+                        clearInterval(id);
+                        i = 0;
+                    } else {
+                        width = width;
+                        elem.style.width = width + "%";
+                        elem.innerHTML = h + "h";
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        #pg{
+            position:relative;
+        }
+    </style>
+</head>
+
+<body onload="Api()">
+    <br />
+    <div>
+
+
+    </div>
+    <div class="row">
+        <div class="col-lg-4">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4">
+            <!-- Card -->
+            <div class="card weather-card">
+
+                <!-- Card content -->
+                <div class="card-body pb-3">
+                    <div class="d-flex justify-content-between mb-4">
+                        <!-- Title -->
+                        <h4 class="card-title font-weight-bold" id="name"></h4>
+                        <button type="button" class="btn btn-outline-primary" onClick="refresh()"> <font style="vertical-align: inherit;"> <font style="vertical-align: inherit;">  </font> </font> 
+                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-counterclockwise" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                      <path fill-rule="evenodd" d="M8 3a5 5 0 1 1-4.546 2.914.5.5 0 0 0-.908-.417A6 6 0 1 0 8 2v1z"/>
+                      <path d="M8 4.466V.534a.25.25 0 0 0-.41-.192L5.23 2.308a.25.25 0 0 0 0 .384l2.36 1.966A.25.25 0 0 0 8 4.466z"/>
+                    </svg>                       
+                        </button>
+                     </div>   
+                    <!-- Text -->
+                        <p class="card-text" id="date"></p>
+                        <div class="d-flex justify-content-between">
+                            <p class="display-1 degree" id="temp"></p>
+                            <i class="fas fa-sun-o fa-5x pt-3 amber-text"></i>
+                        </div>
+                        <div class="d-flex justify-content-between mb-4">
+                            <p><i class="fas fa-tint fa-lg text-info pr-2" id="winds"></i></p>
+                        </div>
+                        <div class="progress md-progress">
+                            <div class="progress-bar black" role="progressbar"  aria-valuemax="100" id="pg"></div>
+                        </div>
+                        <ul class="list-unstyled d-flex justify-content-between font-small text-muted mb-4">
+                            <li class="pl-2">3h</li>
+                            <li>5h</li>
+                            <li>7h</li>
+                            <li>9h</li>
+                            <li>11h</li>
+                            <li>13h</li>
+                            <li>15h</li>
+                            <li>17h</li>
+                            <li>19h</li>
+                            <li class="pl-2">21h</li>
+
+                        </ul>
+                        <div class="d-flex justify-content-between mb-4">
+                            <p><i id="temp_min"></i></p>
+                            <p><i id="temp_max"></i></p>
+                        </div>
+                        <div class="collapse-content">
+                            <hr class="">
+                        </div>
+                    </div>
+                </div>
+        </div>
+        <!-- Card -->
+        <div class="col-lg-4">
+            <div class="card grey lighten-2">
+                <div class="card-body pb-0">
+                    
+                    <div class="d-flex justify-content-between">
+                        <h5 class="font-weight-bold">Hoje</h5>
+                        <p class="mb-0 hour" id="txt"></p>
+                    </div>
+                </div>
+                <hr>
+                <div class="card-body pt-0">
+                    <h6 class="font-weight-bold mb-1">Sensação Termica</h6>
+                    <p id="feels">aa</p>
+
+                </div>
+            </div>
+            <br />
+            <div class="card grey lighten-2">
+                <div class="card-body pb-0">
+                    <i class="fas fa-cloud fa-3x pb-4"></i>
+                    <div class="d-flex justify-content-between">
+                        <h5 class="font-weight-bold">Previsão</h5>
+                    </div>
+                </div>
+                <hr/>
+                <div class="card-body pt-0">
+                    <h6 class="font-weight-bold mb-1">Pressão</h6>
+                    <p id="pressure"></p>
+                </div>
+                <div class="card-body pt-0">
+                
+                    <h6 class="font-weight-bold mb-1">Umidade</h6>
+                    <p id="humidity"></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <!-- Card -->
+            <div class="card gradient-card">
+
+                <!-- Card -->
+                <div class="card gradient-card">
+
+                    <div class="card-image" style="background-image: url(https://s1.static.brasilescola.uol.com.br/be/conteudo/images/embora-tempo-clima-sejam-comumente-usados-para-designar-mesmo-estado-atmosferico-sao-conceitos-diferentes-5ba4d5dec594e.jpg)">
+
+                        <!-- Content -->
+                        <a href="https://openweathermap.org">
+                            <div class="text-white d-flex h-100 mask blue-gradient-rgba">
+                                <div class="first-content align-self-center p-3">
+                                    <h3 class="card-title">Api WeatherMap</h3>
+                                    <p class="lead mb-0"></p>
+                                </div>
+                                <div class="second-content align-self-center mx-auto text-center">
+                                    <i class="far fa-money-bill-alt fa-3x"></i>
+                                </div>
+                            </div>
+                        </a>
+
+                    </div>
+
+                    <!-- Content -->
+                    <div class="card-body white">
+                        <p class="text-muted">Previsões do tempo, previsões atuais e história de maneira rápida e elegante</p>
+                        <h4 class="text-uppercase font-weight-bold my-4">
+                            Serviços
+                            globais OpenWeather
+                        </h4>
+                        <p class="text-muted" align="justify">
+                            Para recolher os dados metereologicos desse site foi usado a Api WeatherMap, tais como sensação termica, temperatura atual, ventos, pressão atmosferica e entre outros.
+                            A Api pode ser encontrada nesse link:'https://openweathermap.org/'
+                        </p>
+                    </div>
+
+                </div>
+                <!-- Card -->
+            </div>
+
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-lg-4">
+            <font style="vertical-align: inherit;">
+                <h1><font class="card-title font-weight-bold">Noticias Ambientais</font></h1>
+            </font>
+            <div class="collapse-content">
+                <hr class="">
+            </div>
+        </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="card-deck">
+                    <div class="card">
+                        <img class="card-img-top" src="https://agenciadenoticias.ibge.gov.br/images/agenciadenoticias/estatisticas_economicas/2020_10/PEVS_Release_1.png" alt="Card image cap">
+                        
+                        <div class="card-body">
+                            <h5 class="card-title" id="titulo"></h5>
+                            <p class="card-text" id="noticia"></p>
+                            <p class="card-text"><small class="text-muted" id="dt_publi"></small></p>
+                        </div>                         
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card-deck">
+                    <div class="card">
+                        <img class="card-img-top" src="https://agenciadenoticias.ibge.gov.br/images/agenciadenoticias/revista_retratos/Revista18/ODS13-home-SimoneMello.jpg" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title" id="titulo2"></h5>
+                            <p class="card-text" id="noticia2"></p>
+                            <p class="card-text"><small class="text-muted" id="dt_publi2"></small></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="card-deck">
+                    <div class="card">
+                        <img class="card-img-top" src="https://agenciadenoticias.ibge.gov.br/images/agenciadenoticias/ibge/2020_08/biblioteca_Ceclia-Bastos-USPImagensHOME.jpg" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title" id="titulo3"></h5>
+                            <p class="card-text" id="noticia3"></p>
+                            <p class="card-text"><small class="text-muted" id="dt_publi3"></small></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+</body>
+</html>
+
+
+
+
+
